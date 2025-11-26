@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Dashboard</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: #f0f2f5;
+      padding: 20px;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    header {
+      background: #4e73df;
+      color: white;
+      padding: 20px 40px;
+      border-radius: 10px;
+      text-align: left;
+      font-size: 24px;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      position: relative;
+    }
+
+    /* Profile icon */
+    .profile {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: white;
+      font-size: 26px;
+      cursor: pointer;
+    }
+
+    .profile-dropdown {
+      display: none;
+      position: absolute;
+      top: 60px;
+      right: 20px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      overflow: hidden;
+      width: 180px;
+      z-index: 10;
+    }
+
+    .profile-dropdown a {
+      display: block;
+      padding: 12px;
+      text-decoration: none;
+      color: black;
+      border-bottom: 1px solid #eee;
+      font-size: 15px;
+    }
+    .profile-dropdown a:hover { background: #f1f1f1; }
+
+    /* Welcome + Gauge */
+    .top-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 40px;
+      background: white;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+    }
+
+    .welcome-text h1 { font-size: 42px; margin-bottom: 8px; color: #4e73df; }
+    .welcome-text p { font-size: 18px; color: #555; }
+
+    /* Attendance Gauge */
+    .attendance-gauge {
+      text-align: center;
+      width: 280px;
+      position: relative;
+    }
+    .attendance-text {
+      position: absolute;
+      top: 60%;
+      left: 50%;
+      font-size: 28px;
+      transform: translate(-50%, -50%);
+      color: #4e73df;
+      font-weight: 700;
+    }
+
+    .mark-btn {
+      margin-top: 20px;
+      background-color: #4e73df;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .mark-btn:hover {
+      background-color: #2e59d9;
+      transform: scale(1.05);
+    }
+
+    /* Cards */
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 25px;
+      margin-top: 50px;
+    }
+
+    .option-card {
+      width: 320px;
+      height: 200px;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      justify-content: center;
+      align-items: center;
+      color: #4e73df;
+      border-radius: 20px;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+      transition: 0.2s;
+      font-size: 22px;
+      font-weight: 600;
+    }
+    .option-card i { font-size: 48px; }
+    .option-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 28px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    Student Dashboard
+    <div class="profile" onclick="toggleDropdown()">
+      <i class="fa fa-user-circle"></i>
+      <div class="profile-dropdown" id="profileDropdown">
+        <a href="#"><i class="fa fa-user"></i> Edit Profile</a>
+        <a href="#"><i class="fa fa-key"></i> Change Password</a>
+        <a href="#"><i class="fa fa-right-from-bracket"></i> Logout</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="top-section">
+    <div class="welcome-text">
+      <h1>Welcome, Poojitha!</h1>
+      <p>Student ID: 123456</p>
+    </div>
+
+    <div class="attendance-gauge">
+      <h3><i class="fa fa-gauge-high"></i> Attendance Overview</h3>
+      <canvas id="attendanceGauge"></canvas>
+      <div class="attendance-text" id="attendanceText">85%</div>
+
+      <!-- Updated button link here -->
+      <button class="mark-btn" onclick="markAttendance()">Mark Today's Attendance</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="option-card"><i class="fa fa-book"></i> Course List</div>
+    <div class="option-card"><i class="fa fa-clock"></i> Class Timetable</div>
+    <div class="option-card"><i class="fa fa-graduation-cap"></i> Internal Marks</div>
+    <div class="option-card"><i class="fa fa-file-alt"></i> Exam Results</div>
+    <div class="option-card"><i class="fa fa-pencil-alt"></i> Assignments</div>
+    <div class="option-card"><i class="fa fa-bullhorn"></i> Announcements</div>
+    <div class="option-card"><i class="fa fa-calendar-alt"></i> Exam Schedule</div>
+    <div class="option-card"><i class="fa fa-money-bill"></i> Fees Information</div>
+    <div class="option-card"><i class="fa fa-book-open"></i> Library Details</div>
+  </div>
+
+  <script>
+    function toggleDropdown() {
+      const dropdown = document.getElementById("profileDropdown");
+      dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+    }
+
+    function markAttendance() {
+      window.location.href = "markattendance.html";  // ⭐ NEW PAGE REDIRECTION
+    }
+
+    let attendancePercentage = 85;
+    const gauge = document.getElementById("attendanceGauge").getContext("2d");
+
+    new Chart(gauge, {
+      type: "doughnut",
+      data: {
+        datasets: [{
+          data: [attendancePercentage, 100 - attendancePercentage],
+          backgroundColor: ["#4e73df", "#d6d6d6"],
+          borderWidth: 0,
+          cutout: "70%",
+          rotation: -90,
+          circumference: 180
+        }]
+      },
+      options: {
+        plugins: { legend: { display: false } }
+      }
+    });
+
+    document.getElementById("attendanceText").innerHTML = attendancePercentage + "%";
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Student Login</title>
+
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #005eff, #00c3ff);
+}
+.box {
+    background: #fff;
+    width: 350px;
+    padding: 25px;
+    text-align: center;
+    border-radius: 15px;
+}
+input {
+    width: 90%;
+    padding: 12px;
+    margin: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+button {
+    width: 100%;
+    padding: 12px;
+    background: #005eff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+}
+#msg { color: red; }
+</style>
+</head>
+
+<body>
+
+<div class="box">
+    <h2>Student Login</h2>
+
+    <input id="username" type="text" placeholder="Username">
+    <input id="password" type="password" placeholder="Password">
+
+    <button onclick="login()">Login</button>
+
+    <p id="msg"></p>
+</div>
+
+<script>
+function login() {
+
+    let usernameValue = document.getElementById("username").value;
+    let passwordValue = document.getElementById("password").value;
+
+    // Validation
+    if (!usernameValue || !passwordValue) {
+        msg.innerText = "Enter username & password";
+        return;
+    }
+
+    // DEFAULT LOGIN
+    if (usernameValue === "poojitha" && passwordValue === "123") {
+        msg.style.color = "green";
+        msg.innerText = "Login Successful!";
+        
+        setTimeout(() => {
+            window.location.href = "dashboard.html";
+        }, 1000);
+
+        return;
+    }
+
+    // Wrong credentials message
+    msg.innerText = "Invalid username or password";
+}
+</script>
+
+</body>
+</html>
